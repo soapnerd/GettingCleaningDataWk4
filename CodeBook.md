@@ -25,7 +25,7 @@ Exports the new data set to a text file
 A variable Xset is created that merges the data from trainsetX and testsetX with the rbind() command. This repeats for the Y (Yset) and Subject (Sset) data sets.  The columns in Xset are renamed with the labels from the features datset while the columns in Yset and Sset are named directly.  
 
 2. Extracts only mean and std measurements
-A vector MeanSD is created that uses grep() to find the columns that have features with "mean()" or "std()" in the name. These columns are isolated in a new data frame called Xset.
+MeanSD is created that uses grep() to find the columns that have features with "mean()" or "std()" in the name. These columns are isolated in a new data frame called Xset.
 
 3. Use descriptive activity names
 Activity names are assigned using the activity information from the Y data set.

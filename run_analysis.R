@@ -17,7 +17,6 @@ trainsetY <- read.table("/Users/Soapnerd/Desktop/UCI HAR Dataset/train/Y_train.t
 testsetY <- read.table("/Users/Soapnerd/Desktop/UCI HAR Dataset/test/Y_test.txt", quote="\"", stringsAsFactors=FALSE)
 colnames(trainsetY) <-"activityId"
 colnames(testsetY) <-"activityId"
-Yset <- rbind(trainsetY, testsetY)
 
 SubTrain <- read.table("/Users/Soapnerd/Desktop/UCI HAR Dataset/train/subject_train.txt", quote="\"", stringsAsFactors=FALSE)
 SubTest <- read.table("/Users/Soapnerd/Desktop/UCI HAR Dataset/test/subject_test.txt", quote="\"", stringsAsFactors=FALSE)
@@ -32,13 +31,14 @@ Sset <- rbind(SubTest, SubTrain)
 
 
 ##STD DEV and Mean
-features_selected <- features[grep("mean|std",features[,2]),]
-Xset <- Xset[,features_selected[,1]]
+MeanSD <- features[grep("mean|std",features[,2]),]
+Xset <- Xset[,MeanSD[,1]]
 
 ##Add Activity Names
 colnames(Yset) <- "label"
 Yset$activity <- factor(Yset$label, labels = as.character(ActivityLabel[,2]))
 activity <- Yset$activity
+
 ##Assigns variable names
 colnames(Xset) <- features[features_selected[,1],2]
 colnames(Sset) <- "subject" ##subject=sub_all$subject
@@ -46,6 +46,6 @@ colnames(Sset) <- "subject" ##subject=sub_all$subject
 
 ##Creates Tidy Data and writes to file
 CombineData <- cbind(Xset, activity, Sset)
-TempData <- group_by(combine,activity, subject)
+TempData <- group_by(CombineData,activity, subject)
 TidyData <- summarize_all(TempData,funs(mean))
 write.table(TidyData, file = "/Users/Soapnerd/Desktop/UCI HAR Dataset/tidy_data.txt", row.names = FALSE, col.names = TRUE)
